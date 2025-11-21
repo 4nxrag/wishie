@@ -49,12 +49,10 @@ JWT_ACCESS_EXPIRY=15m
 JWT_REFRESH_EXPIRY=7d
 CORS_ORIGIN=http://localhost:5173
 
-text
 
 Start development server:
 npm run dev
 
-text
 
 ## 🧪 API Endpoints
 
