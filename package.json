@@ -1,0 +1,12 @@
+{
+  "name": "wishie",
+  "version": "1.0.0",
+  "description": "A MERN stack PWA for managing contacts, events (birthdays/anniversaries), and sending wishes via WhatsApp.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
