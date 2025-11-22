@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import connectDB from './config/db.js';
 import eventRoutes from './routes/eventRoutes.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
+import templateRoutes from './routes/templateRoutes.js';
 
 // Import routes
 import authRoutes from './routes/authRoutes.js';
@@ -41,6 +42,7 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/contacts', contactRoutes); 
 app.use('/api/events', eventRoutes); 
+app.use('/api/templates', templateRoutes);
 
 // 404 handler (must be before error handler)
 app.use(notFound);

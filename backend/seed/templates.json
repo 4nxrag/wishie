@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Romantic Birthday - Girlfriend",
+    "content": "Happy Birthday to the most amazing person in my life! 🎉💕 {{name}}, you make every day brighter. Here's to {{age}} years of your incredible journey. Love you! ❤️",
+    "category": "girlfriend",
+    "eventType": "birthday",
+    "variables": ["name", "age"]
+  },
+  {
+    "title": "Sweet Birthday - Girlfriend",
+    "content": "To my beautiful {{name}}, Happy {{age}}th Birthday! 🎂 Every moment with you is a gift. May this year bring you all the happiness you deserve! 💖",
+    "category": "girlfriend",
+    "eventType": "birthday",
+    "variables": ["name", "age"]
+  },
+  {
+    "title": "Anniversary - Girlfriend",
+    "content": "Happy {{year}} year anniversary, {{name}}! 💑 These have been the best {{year}} years of my life. Here's to many more adventures together! 🌟",
+    "category": "girlfriend",
+    "eventType": "anniversary",
+    "variables": ["name", "year"]
+  },
+  {
+    "title": "Casual Birthday - Friend",
+    "content": "Happy Birthday {{name}}! 🎉 Hope your {{age}}th year is filled with awesome moments and great memories. Let's celebrate soon! 🎊",
+    "category": "friend",
+    "eventType": "birthday",
+    "variables": ["name", "age"]
+  },
+  {
+    "title": "Funny Birthday - Friend",
+    "content": "Yo {{name}}! You're officially {{age}} years old now! 😂 Don't worry, you're still not as old as you'll be next year! Party time! 🎉🎈",
+    "category": "funny",
+    "eventType": "birthday",
+    "variables": ["name", "age"]
+  },
+  {
+    "title": "Warm Birthday - Family",
+    "content": "Happy Birthday dear {{name}}! 🎂 Wishing you a wonderful {{age}}th birthday filled with love, joy, and all your favorite things. We love you! ❤️",
+    "category": "family",
+    "eventType": "birthday",
+    "variables": ["name", "age"]
+  },
+  {
+    "title": "Respectful Birthday - Family Elder",
+    "content": "Wishing you a very Happy Birthday! 🙏 May this {{age}}th year bring you good health, happiness, and countless blessings. With love and respect. 🌺",
+    "category": "family",
+    "eventType": "birthday",
+    "variables": ["age"]
+  },
+  {
+    "title": "Professional Birthday - Colleague",
+    "content": "Happy Birthday {{name}}! 🎉 Wishing you success, happiness, and great achievements in the year ahead. Enjoy your special day! 🎊",
+    "category": "colleague",
+    "eventType": "birthday",
+    "variables": ["name"]
+  },
+  {
+    "title": "Cute Pet Birthday",
+    "content": "Happy Birthday to the cutest furball! 🐾🎉 {{name}} is {{age}} years old today! Time for extra treats and belly rubs! 🎂🐕",
+    "category": "funny",
+    "eventType": "pet_birthday",
+    "variables": ["name", "age"]
+  },
+  {
+    "title": "Sweet Anniversary",
+    "content": "Happy {{year}} year anniversary {{name}}! 💐 Celebrating {{year}} amazing years together. Here's to many more beautiful memories! ✨",
+    "category": "general",
+    "eventType": "anniversary",
+    "variables": ["name", "year"]
+  },
+  {
+    "title": "Heartfelt Birthday",
+    "content": "Wishing you a very Happy Birthday {{name}}! 🎉 May your {{age}}th year be filled with joy, success, and wonderful surprises! 🎈",
+    "category": "general",
+    "eventType": "birthday",
+    "variables": ["name", "age"]
+  },
+  {
+    "title": "Short & Sweet Birthday",
+    "content": "Happy Birthday {{name}}! 🎂 Make it a great one! 🎉",
+    "category": "general",
+    "eventType": "birthday",
+    "variables": ["name"]
+  }
+]
