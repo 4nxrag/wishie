@@ -14,30 +14,34 @@ const Layout = () => {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Navbar */}
       <nav style={{
-        background: 'white',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+        background: 'var(--glass-bg)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        boxShadow: 'var(--shadow-md)',
         padding: '1rem 0',
         position: 'sticky',
         top: 0,
-        zIndex: 100
+        zIndex: 100,
+        borderBottom: '1px solid var(--glass-border)'
       }}>
+
         <div className="container" style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-            <h2 style={{ 
-              color: 'var(--primary)', 
+            <h2 style={{
+              color: 'var(--primary)',
               fontSize: '1.5rem',
               fontWeight: '700'
             }}>
               🎉 Wishie
             </h2>
-            
+
             <div style={{ display: 'flex', gap: '1rem' }}>
-              <NavLink 
-                to="/today" 
+              <NavLink
+                to="/today"
                 style={({ isActive }) => ({
                   textDecoration: 'none',
                   color: isActive ? 'var(--primary)' : 'var(--gray-700)',
@@ -49,9 +53,9 @@ const Layout = () => {
               >
                 Today
               </NavLink>
-              
-              <NavLink 
-                to="/contacts" 
+
+              <NavLink
+                to="/contacts"
                 style={({ isActive }) => ({
                   textDecoration: 'none',
                   color: isActive ? 'var(--primary)' : 'var(--gray-700)',

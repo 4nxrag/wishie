@@ -8,6 +8,7 @@ import Today from './pages/Today';
 import Contacts from './pages/Contacts';
 import ContactDetail from './pages/ContactDetail';
 import CreateEvent from './pages/CreateEvent';
+import WishGenerator from './pages/WishGenerator';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="contacts" element={<Contacts />} />
             <Route path="contacts/:id" element={<ContactDetail />} />
             <Route path="events/create/:contactId" element={<CreateEvent />} />
+            <Route path="wish/:eventId" element={<WishGenerator />} />
           </Route>
 
           {/* 404 */}

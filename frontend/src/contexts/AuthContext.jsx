@@ -29,15 +29,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async (email, password) => {
-    const response = await api.post('/auth/login', { email, password });
-    const { user, accessToken } = response.data.data;
-    
-    localStorage.setItem('accessToken', accessToken);
-    setUser(user);
-    
-    return user;
-  };
+const login = async (email, password) => {
+  const response = await api.post('/auth/login', { email, password });
+  const { user, accessToken } = response.data.data;
+  
+  console.log('Login successful, token:', accessToken.substring(0, 20) + '...'); // ← Debug
+  
+  localStorage.setItem('accessToken', accessToken);
+  setUser(user);
+  
+  return user;
+};
+
 
   const register = async (name, email, password) => {
     const response = await api.post('/auth/register', { name, email, password });

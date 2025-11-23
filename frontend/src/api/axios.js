@@ -26,11 +26,15 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    console.log('API Error:', error.response?.status, error.response?.data); // ← Add this for debugging
+
     // If 401 and not already retried
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
+        console.log('Attempting token refresh...'); // ← Debug log
+        
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/auth/refresh`,
           {},
@@ -39,11 +43,14 @@ api.interceptors.response.use(
 
         const { accessToken } = response.data.data;
         localStorage.setItem('accessToken', accessToken);
+        
+        console.log('Token refreshed successfully!'); // ← Debug log
 
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return api(originalRequest);
 
       } catch (refreshError) {
+        console.error('Token refresh failed:', refreshError); // ← Debug log
         localStorage.removeItem('accessToken');
         window.location.href = '/login';
         return Promise.reject(refreshError);
