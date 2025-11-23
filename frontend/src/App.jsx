@@ -5,6 +5,9 @@ import Layout from './components/Layout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Today from './pages/Today';
+import Contacts from './pages/Contacts';
+import ContactDetail from './pages/ContactDetail';
+import CreateEvent from './pages/CreateEvent';
 
 function App() {
   return (
@@ -19,7 +22,9 @@ function App() {
           <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
             <Route index element={<Navigate to="/today" replace />} />
             <Route path="today" element={<Today />} />
-            <Route path="contacts" element={<div>Contacts coming next!</div>} />
+            <Route path="contacts" element={<Contacts />} />
+            <Route path="contacts/:id" element={<ContactDetail />} />
+            <Route path="events/create/:contactId" element={<CreateEvent />} />
           </Route>
 
           {/* 404 */}
