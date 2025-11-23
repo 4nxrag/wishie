@@ -12,6 +12,8 @@ export const generateWish = async (req, res) => {
   try {
     const { eventId, templateId } = req.body;
 
+    console.log('Generating wish for:', { eventId, templateId, userId: req.user._id });
+
     // Get event with contact details
     const event = await Event.findOne({ _id: eventId, userId: req.user._id })
       .populate('contactId');
@@ -23,6 +25,8 @@ export const generateWish = async (req, res) => {
       });
     }
 
+    console.log('Event found:', event.title);
+
     // Get template
     const template = await Template.findById(templateId);
     if (!template) {
@@ -31,6 +35,8 @@ export const generateWish = async (req, res) => {
         message: 'Template not found' 
       });
     }
+
+    console.log('Template found:', template.title);
 
     // Calculate age (for birthdays)
     let age = null;
@@ -44,25 +50,31 @@ export const generateWish = async (req, res) => {
       year = calculateAge(event.originalDate);
     }
 
+    console.log('Calculated:', { age, year });
+
     // Prepare data for template rendering
     const data = {
-      name: event.contactId.name,
+      name: event.contactId?.name || '',
       age: age || '',
-      relation: event.contactId.relation,
+      relation: event.contactId?.relation || '',
       year: year || '',
       eventType: event.type
     };
 
+    console.log('Rendering with data:', data);
+
     // Render template with actual data
     const message = renderTemplate(template.content, data);
+
+    console.log('Generated message:', message);
 
     res.json({
       success: true,
       data: { 
         message,
         contact: {
-          name: event.contactId.name,
-          phone: event.contactId.phone
+          name: event.contactId?.name,
+          phone: event.contactId?.phone
         },
         event: {
           id: event._id,
@@ -80,7 +92,8 @@ export const generateWish = async (req, res) => {
     console.error('Generate wish error:', error);
     res.status(500).json({ 
       success: false, 
-      message: 'Failed to generate wish' 
+      message: 'Failed to generate wish',
+      error: error.message
     });
   }
 };

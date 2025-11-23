@@ -18,38 +18,69 @@ const WishGenerator = () => {
     fetchData();
   }, [eventId]);
 
-  const fetchData = async () => {
-    try {
-      // Fetch event details
-      const eventRes = await api.get(`/events`);
-      const foundEvent = eventRes.data.data.events.find(e => e._id === eventId);
-      
-      if (!foundEvent) {
-        alert('Event not found');
-        navigate('/today');
-        return;
-      }
-      
-      setEvent(foundEvent);
-
-      // Fetch templates matching event type and contact relation
-      const relation = foundEvent.contactId?.relation || 'general';
-      const templatesRes = await api.get(`/templates?category=${relation}&eventType=${foundEvent.type}`);
-      
-      setTemplates(templatesRes.data.data.templates);
-      
-      // Auto-select first template
-      if (templatesRes.data.data.templates.length > 0) {
-        setSelectedTemplate(templatesRes.data.data.templates[0]);
-      }
-      
-    } catch (err) {
-      console.error('Error fetching data:', err);
-      alert('Failed to load data');
-    } finally {
-      setLoading(false);
+const fetchData = async () => {
+  try {
+    console.log('Fetching data for event:', eventId); // Debug log
+    
+    // Fetch event details
+    const eventRes = await api.get(`/events`);
+    console.log('All events:', eventRes.data); // Debug log
+    
+    const foundEvent = eventRes.data.data.events.find(e => e._id === eventId);
+    
+    if (!foundEvent) {
+      alert('Event not found');
+      navigate('/today');
+      return;
     }
-  };
+    
+    console.log('Found event:', foundEvent); // Debug log
+    setEvent(foundEvent);
+
+    // Fetch ALL templates first (remove filtering for debugging)
+    console.log('Fetching templates...'); // Debug log
+    const templatesRes = await api.get('/templates');
+    console.log('Templates response:', templatesRes.data); // Debug log
+    
+    const allTemplates = templatesRes.data.data.templates;
+    
+    // Filter on frontend side
+    const relation = foundEvent.contactId?.relation || 'general';
+    const eventType = foundEvent.type;
+    
+    console.log('Filtering by:', { relation, eventType }); // Debug log
+    
+    // Show templates that match relation OR are general, AND match event type OR are 'all'
+    const filteredTemplates = allTemplates.filter(t => {
+      const matchesRelation = t.category === relation || t.category === 'general';
+      const matchesEventType = t.eventType === eventType || t.eventType === 'all';
+      return matchesRelation && matchesEventType;
+    });
+    
+    console.log('Filtered templates:', filteredTemplates); // Debug log
+    
+    // If no matches, show all general templates
+    const templatesToShow = filteredTemplates.length > 0 
+      ? filteredTemplates 
+      : allTemplates.filter(t => t.category === 'general');
+    
+    console.log('Final templates to show:', templatesToShow); // Debug log
+    setTemplates(templatesToShow);
+    
+    // Auto-select first template
+    if (templatesToShow.length > 0) {
+      setSelectedTemplate(templatesToShow[0]);
+    }
+    
+  } catch (err) {
+    console.error('Error fetching data:', err);
+    console.error('Error response:', err.response?.data); // Debug log
+    alert('Failed to load data');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleGenerate = async () => {
     if (!selectedTemplate) {

@@ -3,13 +3,13 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import connectDB from './config/db.js';
-import eventRoutes from './routes/eventRoutes.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
+import eventRoutes from './routes/eventRoutes.js';
 import templateRoutes from './routes/templateRoutes.js';
-
-// Import routes
 import authRoutes from './routes/authRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
+import wishRoutes from './routes/wishRoutes.js';
+
 
 // Load environment variables
 dotenv.config();
@@ -45,6 +45,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/contacts', contactRoutes); 
 app.use('/api/events', eventRoutes); 
 app.use('/api/templates', templateRoutes);
+app.use('/api/wishes', wishRoutes);
 
 // 404 handler (must be before error handler)
 app.use(notFound);
