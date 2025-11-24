@@ -2,6 +2,13 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../api/axios';
 
+// Helper to decode HTML entities
+const decodeHTML = (html) => {
+  const txt = document.createElement('textarea');
+  txt.innerHTML = html;
+  return txt.value;
+};
+
 const ContactDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -45,8 +52,43 @@ const ContactDetail = () => {
     });
   };
 
+  const getEventIcon = (type) => {
+    switch(type) {
+      case 'birthday': return '🎂';
+      case 'anniversary': return '💐';
+      case 'pet_birthday': return '🐾';
+      default: return '🎉';
+    }
+  };
+
+  const getRelationIcon = (relation) => {
+    switch(relation) {
+      case 'girlfriend': return '💕';
+      case 'boyfriend': return '💙';
+      case 'friend': return '🤝';
+      case 'family': return '👨‍👩‍👧‍👦';
+      case 'colleague': return '💼';
+      default: return '👤';
+    }
+  };
+
+  const getRelationColor = (relation) => {
+    switch(relation) {
+      case 'girlfriend': return '#ec4899';
+      case 'boyfriend': return '#3b82f6';
+      case 'friend': return '#10b981';
+      case 'family': return '#f59e0b';
+      case 'colleague': return '#8b5cf6';
+      default: return '#6b7280';
+    }
+  };
+
   if (loading) {
-    return <div className="spinner"></div>;
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+        <div className="spinner"></div>
+      </div>
+    );
   }
 
   if (!contact) {
@@ -54,55 +96,142 @@ const ContactDetail = () => {
   }
 
   return (
-    <div>
+    <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
+      {/* Back Button */}
       <button 
         onClick={() => navigate('/contacts')}
         style={{
-          background: 'none',
-          border: 'none',
+          background: 'var(--glass-bg)',
+          backdropFilter: 'blur(10px)',
+          border: '2px solid var(--glass-border)',
+          borderRadius: '12px',
           color: 'var(--primary)',
           cursor: 'pointer',
-          marginBottom: '1rem',
-          fontSize: '1rem'
+          marginBottom: '1.5rem',
+          fontSize: '1rem',
+          fontWeight: '600',
+          padding: '0.75rem 1.5rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          transition: 'all 0.3s ease'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateX(-5px)';
+          e.currentTarget.style.borderColor = 'var(--primary-light)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateX(0)';
+          e.currentTarget.style.borderColor = 'var(--glass-border)';
         }}
       >
         ← Back to Contacts
       </button>
 
-      {/* Contact Info */}
-      <div className="card" style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
-          {contact.name}
-        </h1>
-        <p style={{ color: 'var(--gray-600)', marginBottom: '0.5rem' }}>
-          📞 {contact.phone}
-        </p>
-        {contact.relation !== 'other' && (
-          <span style={{
-            display: 'inline-block',
-            padding: '0.25rem 0.75rem',
-            background: 'var(--gray-100)',
-            color: 'var(--primary)',
-            borderRadius: '12px',
-            fontSize: '0.875rem',
-            fontWeight: '600',
-            textTransform: 'capitalize',
-            marginTop: '0.5rem'
+      {/* Contact Info Card */}
+      <div className="card" style={{ 
+        marginBottom: '2rem',
+        background: `linear-gradient(135deg, ${getRelationColor(contact.relation)} 0%, ${getRelationColor(contact.relation)}dd 100%)`,
+        color: 'white',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        {/* Decorative circles */}
+        <div style={{
+          position: 'absolute',
+          top: '-50px',
+          right: '-50px',
+          width: '200px',
+          height: '200px',
+          background: 'rgba(255, 255, 255, 0.1)',
+          borderRadius: '50%'
+        }}></div>
+        <div style={{
+          position: 'absolute',
+          bottom: '-30px',
+          left: '-30px',
+          width: '150px',
+          height: '150px',
+          background: 'rgba(255, 255, 255, 0.1)',
+          borderRadius: '50%'
+        }}></div>
+
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          {/* Avatar + Name */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div style={{
+              width: '100px',
+              height: '100px',
+              borderRadius: '50%',
+              background: 'rgba(255, 255, 255, 0.25)',
+              backdropFilter: 'blur(10px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '3rem',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.2)',
+              border: '4px solid rgba(255, 255, 255, 0.3)'
+            }}>
+              {getRelationIcon(contact.relation)}
+            </div>
+            <div>
+              <h1 style={{ fontSize: '3rem', marginBottom: '0.5rem', fontWeight: '800' }}>
+                {decodeHTML(contact.name)}
+              </h1>
+              {contact.relation !== 'other' && (
+                <span style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '0.5rem 1.25rem',
+                  background: 'rgba(255, 255, 255, 0.25)',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: '16px',
+                  fontSize: '1rem',
+                  fontWeight: '700',
+                  textTransform: 'capitalize',
+                  border: '2px solid rgba(255, 255, 255, 0.3)'
+                }}>
+                  {getRelationIcon(contact.relation)} {contact.relation}
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Contact Details */}
+          <div style={{ 
+            display: 'flex',
+            gap: '2rem',
+            fontSize: '1.1rem',
+            marginBottom: '1rem'
           }}>
-            {contact.relation}
-          </span>
-        )}
-        {contact.notes && (
-          <p style={{ 
-            color: 'var(--gray-500)',
-            marginTop: '1rem',
-            padding: '1rem',
-            background: 'var(--gray-50)',
-            borderRadius: '6px'
-          }}>
-            {contact.notes}
-          </p>
-        )}
+            <div style={{ 
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              background: 'rgba(255, 255, 255, 0.15)',
+              padding: '0.75rem 1.25rem',
+              borderRadius: '12px'
+            }}>
+              📞 {contact.phone}
+            </div>
+          </div>
+
+          {/* Notes */}
+          {contact.notes && (
+            <div style={{ 
+              background: 'rgba(255, 255, 255, 0.15)',
+              padding: '1.25rem',
+              borderRadius: '12px',
+              fontSize: '1rem',
+              lineHeight: '1.6',
+              backdropFilter: 'blur(10px)',
+              border: '2px solid rgba(255, 255, 255, 0.2)'
+            }}>
+              💡 {decodeHTML(contact.notes)}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Events Section */}
@@ -110,9 +239,39 @@ const ContactDetail = () => {
         display: 'flex', 
         justifyContent: 'space-between', 
         alignItems: 'center',
-        marginBottom: '1rem'
+        marginBottom: '1.5rem',
+        background: 'var(--glass-bg)',
+        backdropFilter: 'blur(10px)',
+        padding: '1rem 1.5rem',
+        borderRadius: '16px',
+        border: '2px solid var(--primary-light)'
       }}>
-        <h2 style={{ fontSize: '1.5rem' }}>Events</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <span style={{ fontSize: '2rem' }}>🎉</span>
+          <h2 style={{ 
+            fontSize: '2rem',
+            background: 'var(--gradient-primary)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            fontWeight: '700',
+            margin: 0
+          }}>
+            Events
+          </h2>
+          {events.length > 0 && (
+            <span style={{
+              background: 'var(--gradient-primary)',
+              color: 'white',
+              padding: '0.25rem 0.75rem',
+              borderRadius: '12px',
+              fontSize: '0.875rem',
+              fontWeight: '700'
+            }}>
+              {events.length}
+            </span>
+          )}
+        </div>
         <Link 
           to={`/events/create/${contact._id}`}
           className="btn btn-primary"
@@ -121,11 +280,34 @@ const ContactDetail = () => {
         </Link>
       </div>
 
+      {/* Events List */}
       {events.length === 0 ? (
-        <div className="card text-center">
-          <p style={{ color: 'var(--gray-600)' }}>
-            No events yet. Add a birthday or anniversary! 👆
+        <div className="card" style={{ 
+          textAlign: 'center',
+          padding: '4rem 2rem',
+          background: 'var(--gradient-primary)',
+          color: 'white'
+        }}>
+          <div style={{ fontSize: '5rem', marginBottom: '1.5rem' }}>🎂</div>
+          <h3 style={{ fontSize: '2rem', marginBottom: '1rem', fontWeight: '700' }}>
+            No Events Yet
+          </h3>
+          <p style={{ fontSize: '1.1rem', marginBottom: '2rem', opacity: 0.95 }}>
+            Add a birthday or anniversary for {decodeHTML(contact.name)}
           </p>
+          <Link 
+            to={`/events/create/${contact._id}`}
+            className="btn"
+            style={{
+              background: 'white',
+              color: 'var(--primary)',
+              fontWeight: '700',
+              padding: '1rem 2.5rem',
+              fontSize: '1.1rem'
+            }}
+          >
+            + Add First Event
+          </Link>
         </div>
       ) : (
         <div style={{ display: 'grid', gap: '1rem' }}>
@@ -134,35 +316,65 @@ const ContactDetail = () => {
               <div style={{ 
                 display: 'flex', 
                 justifyContent: 'space-between',
-                alignItems: 'start'
+                alignItems: 'start',
+                gap: '1.5rem'
               }}>
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                    <span style={{ fontSize: '1.5rem' }}>
-                      {event.type === 'birthday' ? '🎂' : 
-                       event.type === 'anniversary' ? '💐' :
-                       event.type === 'pet_birthday' ? '🐾' : '🎉'}
-                    </span>
-                    <h3 style={{ fontSize: '1.25rem' }}>{event.title}</h3>
+                <div style={{ flex: 1, display: 'flex', gap: '1rem' }}>
+                  <span style={{ fontSize: '3rem' }}>
+                    {getEventIcon(event.type)}
+                  </span>
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{ 
+                      fontSize: '1.5rem',
+                      fontWeight: '700',
+                      color: 'var(--gray-900)',
+                      marginBottom: '0.5rem'
+                    }}>
+                      {decodeHTML(event.title)}
+                    </h3>
+                    <div style={{ 
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '0.5rem',
+                      fontSize: '0.95rem',
+                      color: 'var(--gray-600)'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span>📅</span>
+                        <span>Original: {formatDate(event.originalDate)}</span>
+                      </div>
+                      <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '0.5rem',
+                        color: 'var(--primary)',
+                        fontWeight: '600'
+                      }}>
+                        <span>🔔</span>
+                        <span>Next: {formatDate(event.nextOccurrence)}</span>
+                      </div>
+                    </div>
+                    {event.notes && (
+                      <p style={{ 
+                        color: 'var(--gray-500)', 
+                        fontSize: '0.875rem', 
+                        marginTop: '0.75rem',
+                        background: 'var(--gray-50)',
+                        padding: '0.75rem 1rem',
+                        borderRadius: '8px',
+                        borderLeft: '3px solid var(--primary)'
+                      }}>
+                        💡 {decodeHTML(event.notes)}
+                      </p>
+                    )}
                   </div>
-                  <p style={{ color: 'var(--gray-600)', fontSize: '0.875rem' }}>
-                    Original: {formatDate(event.originalDate)}
-                  </p>
-                  <p style={{ color: 'var(--primary)', fontWeight: '600', marginTop: '0.25rem' }}>
-                    Next: {formatDate(event.nextOccurrence)}
-                  </p>
-                  {event.notes && (
-                    <p style={{ color: 'var(--gray-500)', fontSize: '0.875rem', marginTop: '0.5rem' }}>
-                      {event.notes}
-                    </p>
-                  )}
                 </div>
                 <button 
                   onClick={() => handleDeleteEvent(event._id)}
                   className="btn btn-danger"
-                  style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }}
+                  style={{ padding: '0.75rem 1rem', fontSize: '0.95rem' }}
                 >
-                  Delete
+                  🗑️ Delete
                 </button>
               </div>
             </div>

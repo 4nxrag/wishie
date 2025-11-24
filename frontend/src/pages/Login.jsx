@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // ← Add this
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -33,13 +33,64 @@ const Login = () => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      padding: '20px'
+      background: 'var(--gradient-light)',
+      padding: '20px',
+      position: 'relative',
+      overflow: 'hidden'
     }}>
-      <div className="card" style={{ maxWidth: '400px', width: '100%' }}>
-        <div className="text-center mb-2">
-          <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🎉 Wishie</h1>
-          <p style={{ color: 'var(--gray-600)' }}>Welcome back! Please login.</p>
+      {/* Animated Background Blobs */}
+      <div style={{
+        position: 'absolute',
+        width: '500px',
+        height: '500px',
+        background: 'radial-gradient(circle, rgba(236,72,153,0.15) 0%, transparent 70%)',
+        borderRadius: '50%',
+        top: '-10%',
+        left: '-10%',
+        animation: 'float 20s ease-in-out infinite',
+        pointerEvents: 'none'
+      }}></div>
+      <div style={{
+        position: 'absolute',
+        width: '400px',
+        height: '400px',
+        background: 'radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%)',
+        borderRadius: '50%',
+        bottom: '-10%',
+        right: '-10%',
+        animation: 'float 15s ease-in-out infinite reverse',
+        pointerEvents: 'none'
+      }}></div>
+
+      {/* Login Card */}
+      <div className="card" style={{ 
+        maxWidth: '440px', 
+        width: '100%',
+        animation: 'slideDown 0.5s ease-out'
+      }}>
+        {/* Logo & Title */}
+        <div className="text-center mb-2" style={{ marginBottom: '2rem' }}>
+          <div style={{ 
+            fontSize: '4rem', 
+            marginBottom: '1rem',
+            animation: 'bounce 2s ease-in-out infinite'
+          }}>
+            🎉
+          </div>
+          <h1 style={{ 
+            fontSize: '2.5rem', 
+            marginBottom: '0.5rem',
+            background: 'var(--gradient-primary)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            fontWeight: '800'
+          }}>
+            Wishie
+          </h1>
+          <p style={{ color: 'var(--gray-600)', fontSize: '1.05rem' }}>
+            Welcome back! Please login to continue.
+          </p>
         </div>
 
         {error && (
@@ -50,7 +101,7 @@ const Login = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">Email</label>
+            <label className="form-label">Email Address</label>
             <input
               type="email"
               className="form-input"
@@ -58,10 +109,10 @@ const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
               required
+              autoComplete="email"
             />
           </div>
 
-          {/* Updated Password Field with Eye Toggle */}
           <div className="form-group">
             <label className="form-label">Password</label>
             <div style={{ position: 'relative' }}>
@@ -72,6 +123,7 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 required
+                autoComplete="current-password"
                 style={{ paddingRight: '3rem' }}
               />
               <button
@@ -86,9 +138,11 @@ const Login = () => {
                   border: 'none',
                   cursor: 'pointer',
                   fontSize: '1.25rem',
-                  color: 'var(--gray-500)',
-                  padding: '0.25rem'
+                  transition: 'transform 0.2s ease',
+                  padding: '0.5rem'
                 }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(-50%) scale(1)'}
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
                 {showPassword ? '🙈' : '👁️'}
@@ -100,21 +154,42 @@ const Login = () => {
             type="submit" 
             className="btn btn-primary btn-block"
             disabled={loading}
+            style={{ marginTop: '1.5rem' }}
           >
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? (
+              <>
+                <div className="spinner" style={{ width: '20px', height: '20px', margin: 0, borderWidth: '2px' }}></div>
+                Logging in...
+              </>
+            ) : (
+              '🚀 Login'
+            )}
           </button>
         </form>
 
-        <p className="text-center mt-2" style={{ color: 'var(--gray-600)' }}>
-          Don't have an account?{' '}
+        <div style={{ 
+          textAlign: 'center', 
+          marginTop: '1.5rem',
+          padding: '1rem 0',
+          borderTop: '1px solid var(--glass-border)'
+        }}>
+          <p style={{ color: 'var(--gray-600)', marginBottom: '0.5rem' }}>
+            Don't have an account?
+          </p>
           <Link to="/register" style={{ 
             color: 'var(--primary)', 
             textDecoration: 'none',
-            fontWeight: '600'
-          }}>
-            Register
+            fontWeight: '700',
+            fontSize: '1.05rem',
+            transition: 'all 0.3s ease',
+            display: 'inline-block'
+          }}
+          onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+          onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+          >
+            Create Account →
           </Link>
-        </p>
+        </div>
       </div>
     </div>
   );
