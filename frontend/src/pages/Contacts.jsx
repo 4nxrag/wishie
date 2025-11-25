@@ -377,11 +377,10 @@ const Contacts = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                <div className="btn-group">
                   <button
                     onClick={() => navigate(`/contacts/${contact._id}`)}
                     className="btn btn-primary"
-                    style={{ flex: 1, minWidth: '120px' }}
                   >
                     View Details
                   </button>
@@ -391,11 +390,11 @@ const Contacts = () => {
                       handleDelete(contact._id);
                     }}
                     className="btn btn-danger"
-
                   >
                     🗑️
                   </button>
                 </div>
+
               </div>
             </div>
           ))}

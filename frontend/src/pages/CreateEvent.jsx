@@ -5,7 +5,7 @@ import api from '../api/axios';
 const CreateEvent = () => {
   const { contactId } = useParams();
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     title: '',
     type: 'birthday',
@@ -39,7 +39,7 @@ const CreateEvent = () => {
   };
 
   const getEventIcon = (type) => {
-    switch(type) {
+    switch (type) {
       case 'birthday': return '🎂';
       case 'anniversary': return '💐';
       case 'pet_birthday': return '🐾';
@@ -48,9 +48,14 @@ const CreateEvent = () => {
   };
 
   return (
-    <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
+    <div style={{
+      animation: 'fadeIn 0.5s ease-out',
+      maxWidth: '800px',
+      margin: '0 auto',
+      padding: '1rem'
+    }}>
       {/* Back Button */}
-      <button 
+      <button
         onClick={() => navigate(`/contacts/${contactId}`)}
         style={{
           background: 'var(--glass-bg)',
@@ -60,13 +65,14 @@ const CreateEvent = () => {
           color: 'var(--primary)',
           cursor: 'pointer',
           marginBottom: '1.5rem',
-          fontSize: '1rem',
+          fontSize: '0.95rem',
           fontWeight: '600',
           padding: '0.75rem 1.5rem',
           display: 'inline-flex',
           alignItems: 'center',
           gap: '0.5rem',
-          transition: 'all 0.3s ease'
+          transition: 'all 0.3s ease',
+          minHeight: '44px'
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'translateX(-5px)';
@@ -77,27 +83,26 @@ const CreateEvent = () => {
           e.currentTarget.style.borderColor = 'var(--glass-border)';
         }}
       >
-        ← Back to Contact
+        ← Back
       </button>
 
       {/* Form Card */}
-      <div className="card" style={{ 
-        maxWidth: '700px', 
-        margin: '0 auto',
-        border: '2px solid var(--primary-light)'
+      <div className="card" style={{
+        border: '2px solid var(--primary-light)',
+        padding: '2rem'
       }}>
         {/* Header */}
-        <div style={{ 
+        <div style={{
           textAlign: 'center',
           marginBottom: '2rem',
-          paddingBottom: '2rem',
+          paddingBottom: '1.5rem',
           borderBottom: '2px solid var(--glass-border)'
         }}>
-          <div style={{ fontSize: '5rem', marginBottom: '1rem' }}>
+          <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>
             {getEventIcon(formData.type)}
           </div>
-          <h1 style={{ 
-            fontSize: '2.5rem',
+          <h1 style={{
+            fontSize: '2rem',
             background: 'var(--gradient-primary)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -107,7 +112,7 @@ const CreateEvent = () => {
           }}>
             Add New Event
           </h1>
-          <p style={{ color: 'var(--gray-600)', fontSize: '1.05rem' }}>
+          <p style={{ color: 'var(--gray-600)', fontSize: '1rem' }}>
             Create a birthday, anniversary, or special occasion
           </p>
         </div>
@@ -155,13 +160,13 @@ const CreateEvent = () => {
               onChange={(e) => setFormData({ ...formData, originalDate: e.target.value })}
               required
             />
-            <small style={{ 
-              color: 'var(--gray-500)', 
+            <small style={{
+              color: 'var(--gray-500)',
               fontSize: '0.875rem',
               display: 'block',
               marginTop: '0.5rem'
             }}>
-              💡 The actual date when the person was born or event occurred (for age/year calculation)
+              💡 The actual date when the person was born or event occurred
             </small>
           </div>
 
@@ -173,13 +178,15 @@ const CreateEvent = () => {
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               placeholder="Gift ideas, favorite things, special preferences..."
               rows={4}
+              style={{ resize: 'vertical', minHeight: '100px' }}
             />
           </div>
 
-          <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
-            <button 
-              type="submit" 
-              className="btn btn-primary btn-block"
+          {/* Buttons - Proper Responsive Layout */}
+          <div className="btn-group" style={{ marginTop: '2rem' }}>
+            <button
+              type="submit"
+              className="btn btn-primary"
               disabled={submitting}
             >
               {submitting ? (
@@ -191,15 +198,15 @@ const CreateEvent = () => {
                 '✨ Create Event'
               )}
             </button>
-            <button 
+            <button
               type="button"
               onClick={() => navigate(`/contacts/${contactId}`)}
               className="btn btn-secondary"
-              style={{ flex: '0 0 auto', padding: '0.75rem 2rem' }}
             >
               Cancel
             </button>
           </div>
+
         </form>
       </div>
     </div>
