@@ -299,8 +299,8 @@ updatedAt: Date
 
 ## 🌐 Deployment
 
-### Backend (Railway)
-1. Create Railway account
+### Backend (Render)
+1. Create Render account
 2. Connect GitHub repository
 3. Set environment variables
 4. Deploy from `backend` folder
