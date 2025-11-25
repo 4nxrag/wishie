@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "node --watch server.js",
     "start": "node server.js",
+    "postdeploy": "npm run seed",
     "seed": "node seed/seedTemplates.js"
   },
   "dependencies": {
