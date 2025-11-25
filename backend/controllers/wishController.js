@@ -8,13 +8,14 @@ import { calculateAge } from '../utils/dateUtils.js';
  * @desc    Generate personalized wish from template
  * @access  Private
  */
+
 export const generateWish = async (req, res) => {
   try {
     const { eventId, templateId } = req.body;
 
     console.log('Generating wish for:', { eventId, templateId, userId: req.user._id });
 
-    // Get event with contact details
+    // Get event with contact details (POPULATE contactId!)
     const event = await Event.findOne({ _id: eventId, userId: req.user._id })
       .populate('contactId');
 
@@ -26,6 +27,7 @@ export const generateWish = async (req, res) => {
     }
 
     console.log('Event found:', event.title);
+    console.log('Contact:', event.contactId); // Debug: Check if contact populated
 
     // Get template
     const template = await Template.findById(templateId);
@@ -37,6 +39,7 @@ export const generateWish = async (req, res) => {
     }
 
     console.log('Template found:', template.title);
+    console.log('Template content:', template.content); // Debug
 
     // Calculate age (for birthdays)
     let age = null;
@@ -50,7 +53,7 @@ export const generateWish = async (req, res) => {
       year = calculateAge(event.originalDate);
     }
 
-    console.log('Calculated:', { age, year });
+    console.log('Calculated age/year:', { age, year }); // Debug
 
     // Prepare data for template rendering
     const data = {
@@ -61,12 +64,12 @@ export const generateWish = async (req, res) => {
       eventType: event.type
     };
 
-    console.log('Rendering with data:', data);
+    console.log('Data for rendering:', data); // Debug
 
     // Render template with actual data
     const message = renderTemplate(template.content, data);
 
-    console.log('Generated message:', message);
+    console.log('Generated message:', message); // Debug
 
     res.json({
       success: true,
