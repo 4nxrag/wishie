@@ -11,18 +11,18 @@ export default defineConfig({
       manifest: {
         name: 'Wishie - Event Manager',
         short_name: 'Wishie',
-        description: 'Never forget a birthday again',
+        description: 'Never forget a moment that matters',
         theme_color: '#6366f1',
         background_color: '#ffffff',
         display: 'standalone',
         icons: [
           {
-            src: '/icon-192.png',
+            src: '/wishie_logo.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: '/icon-512.png',
+            src: '/wishie_logo.png',
             sizes: '512x512',
             type: 'image/png'
           }
