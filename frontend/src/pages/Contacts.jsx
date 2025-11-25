@@ -68,7 +68,7 @@ const Contacts = () => {
   };
 
   const getRelationIcon = (relation) => {
-    switch(relation) {
+    switch (relation) {
       case 'girlfriend': return '💕';
       case 'boyfriend': return '💙';
       case 'friend': return '🤝';
@@ -79,7 +79,7 @@ const Contacts = () => {
   };
 
   const getRelationColor = (relation) => {
-    switch(relation) {
+    switch (relation) {
       case 'girlfriend': return '#ec4899';
       case 'boyfriend': return '#3b82f6';
       case 'friend': return '#10b981';
@@ -100,9 +100,9 @@ const Contacts = () => {
   return (
     <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
       {/* Header */}
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: '2rem',
         background: 'var(--glass-bg)',
@@ -113,7 +113,7 @@ const Contacts = () => {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <span style={{ fontSize: '2rem' }}>👥</span>
-          <h1 style={{ 
+          <h1 style={{
             fontSize: '2.5rem',
             background: 'var(--gradient-primary)',
             WebkitBackgroundClip: 'text',
@@ -137,7 +137,7 @@ const Contacts = () => {
             </span>
           )}
         </div>
-        <button 
+        <button
           onClick={() => setShowForm(!showForm)}
           className="btn btn-primary"
           style={{
@@ -153,14 +153,14 @@ const Contacts = () => {
 
       {/* Add Contact Form */}
       {showForm && (
-        <div className="card" style={{ 
+        <div className="card" style={{
           marginBottom: '2rem',
           animation: 'slideDown 0.3s ease-out',
           border: '2px solid var(--primary-light)'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
             <span style={{ fontSize: '1.5rem' }}>✨</span>
-            <h3 style={{ 
+            <h3 style={{
               fontSize: '1.5rem',
               fontWeight: '700',
               color: 'var(--gray-900)',
@@ -169,7 +169,7 @@ const Contacts = () => {
               Add New Contact
             </h3>
           </div>
-          
+
           {error && (
             <div className="alert alert-error">
               {error}
@@ -232,8 +232,8 @@ const Contacts = () => {
               />
             </div>
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="btn btn-primary btn-block"
               disabled={submitting}
             >
@@ -252,8 +252,8 @@ const Contacts = () => {
 
       {/* Contacts List */}
       {contacts.length === 0 ? (
-        <div className="card" style={{ 
-          textAlign: 'center', 
+        <div className="card" style={{
+          textAlign: 'center',
           padding: '4rem 2rem',
           background: 'var(--gradient-primary)',
           color: 'white'
@@ -265,7 +265,7 @@ const Contacts = () => {
           <p style={{ fontSize: '1.1rem', marginBottom: '2rem', opacity: 0.95 }}>
             Add your first contact to start tracking birthdays and anniversaries!
           </p>
-          <button 
+          <button
             onClick={() => setShowForm(true)}
             className="btn"
             style={{
@@ -282,8 +282,8 @@ const Contacts = () => {
       ) : (
         <div style={{ display: 'grid', gap: '1rem' }}>
           {contacts.map((contact) => (
-            <div 
-              key={contact._id} 
+            <div
+              key={contact._id}
               className="card"
               style={{
                 transition: 'all 0.3s ease',
@@ -298,8 +298,8 @@ const Contacts = () => {
                 e.currentTarget.style.boxShadow = 'var(--shadow-md)';
               }}
             >
-              <div style={{ 
-                display: 'flex', 
+              <div style={{
+                display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'start',
                 gap: '1.5rem'
@@ -322,17 +322,18 @@ const Contacts = () => {
                   </div>
 
                   {/* Contact Info */}
-                  <div style={{ flex: 1 }}>
-                    <h3 style={{ 
-                      fontSize: '1.5rem', 
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <h3 style={{
+                      fontSize: '1.25rem',
                       marginBottom: '0.5rem',
                       fontWeight: '700',
-                      color: 'var(--gray-900)'
+                      color: 'var(--gray-900)',
+                      wordBreak: 'break-word' // Prevent overflow
                     }}>
                       {decodeHTML(contact.name)}
                     </h3>
-                    <p style={{ 
-                      color: 'var(--gray-600)', 
+                    <p style={{
+                      color: 'var(--gray-600)',
                       marginBottom: '0.75rem',
                       display: 'flex',
                       alignItems: 'center',
@@ -359,8 +360,8 @@ const Contacts = () => {
                       </span>
                     )}
                     {contact.notes && (
-                      <p style={{ 
-                        color: 'var(--gray-500)', 
+                      <p style={{
+                        color: 'var(--gray-500)',
                         fontSize: '0.875rem',
                         marginTop: '0.75rem',
                         lineHeight: '1.5',
@@ -374,23 +375,23 @@ const Contacts = () => {
                     )}
                   </div>
                 </div>
-                
+
                 {/* Action Buttons */}
-                <div style={{ display: 'flex', gap: '0.75rem', flexShrink: 0 }}>
-                  <button 
+                <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                  <button
                     onClick={() => navigate(`/contacts/${contact._id}`)}
                     className="btn btn-primary"
-                    style={{ padding: '0.75rem 1.5rem', fontSize: '0.95rem' }}
+                    style={{ flex: 1, minWidth: '120px' }}
                   >
                     View Details
                   </button>
-                  <button 
+                  <button
                     onClick={(e) => {
                       e.stopPropagation();
                       handleDelete(contact._id);
                     }}
                     className="btn btn-danger"
-                    style={{ padding: '0.75rem 1rem', fontSize: '0.95rem' }}
+
                   >
                     🗑️
                   </button>

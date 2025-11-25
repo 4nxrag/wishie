@@ -123,7 +123,7 @@ const Today = () => {
                 style={{
                   background: 'var(--gradient-primary)',
                   color: 'white',
-                  padding: '2rem',
+                  padding: '1.5rem',
                   position: 'relative',
                   overflow: 'hidden'
                 }}
@@ -151,16 +151,18 @@ const Today = () => {
                 <div style={{ 
                   display: 'flex', 
                   justifyContent: 'space-between',
+                  flexDirection: 'column',
                   alignItems: 'start',
                   position: 'relative',
                   zIndex: 1
                 }}>
                   <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.75rem' }}>
-                      <span style={{ fontSize: '3rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', 
+                      flexWrap: 'wrap', marginBottom: '0.75rem' }}>
+                      <span style={{ fontSize: '2.5rem' }}>
                         {getEventIcon(event.type)}
                       </span>
-                      <h3 style={{ fontSize: '2rem', fontWeight: '700', margin: 0 }}>
+                      <h3 style={{ fontSize: '1.75rem', fontWeight: '700', margin: 0 }}>
                         {decodeHTML(event.contactId?.name || 'Unknown')}
                       </h3>
                     </div>
@@ -204,6 +206,7 @@ const Today = () => {
                       padding: '1rem 2rem',
                       fontSize: '1.05rem',
                       boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+                        width: '100%', // Full width on mobile
                       marginLeft: '1rem'
                     }}
                   >
