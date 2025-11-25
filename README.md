@@ -2,6 +2,14 @@
 
 A beautiful, full-stack Progressive Web App (PWA) for managing contacts, tracking birthdays/anniversaries, and sending personalized wishes via WhatsApp.
 
+## 🌐 Live Demo
+
+**👉 [Try Wishie Live](https://wishie-frontend.vercel.app/)**
+
+
+---
+
+
 ![Wishie Banner](https://img.shields.io/badge/Built%20with-MERN-success?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen?style=for-the-badge)
