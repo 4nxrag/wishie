@@ -78,6 +78,7 @@ A beautiful, full-stack Progressive Web App (PWA) for managing contacts, trackin
 
 ## 📁 Project Structure
 
+```
 wishie/
 ├── backend/
 │   ├── config/
@@ -138,8 +139,7 @@ wishie/
 │   └── vite.config.js
 │
 └── README.md
-
-
+```
 
 ---
 
